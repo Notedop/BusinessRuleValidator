@@ -1,32 +1,22 @@
 package nl.rvh.rulevalidation;
 
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import nl.rvh.rulevalidation.enums.ComparisonOperator;
-
-import javax.print.DocFlavor;
 
 /**
  * Abstract business rule class. Extend this class to implement custom business rule.
  * The implementing class must contain a constructor having the @JsonCreator annotation
  * and JsonProperty annotation on the constructor parameters to assure proper serialization
  * and de-serialization.
- *
+ * <p>
  * Implement the Evaluate method in the derived class. You can process the objectToEvaluate to your
  * liking and then use the comparisonOperator.compare() method to do the final evaluation
- *
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class", visible = true)
 public abstract class BusinessRule extends Rule {
 
-    @JacksonXmlProperty
     protected ComparisonOperator comparisonOperator;
-    @JacksonXmlProperty
-    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class", visible = true)
     protected Object objectToEvaluate;
 
-    @JsonCreator
-    protected BusinessRule(@JsonProperty("comparisonOperator") ComparisonOperator comparisonOperator, @JsonProperty("objectToEvaluate") Object objectToEvaluate, @JsonProperty("name") String name) {
+    protected BusinessRule(ComparisonOperator comparisonOperator, Object objectToEvaluate, String name) {
         super(name);
         this.objectToEvaluate = objectToEvaluate;
         this.comparisonOperator = comparisonOperator;

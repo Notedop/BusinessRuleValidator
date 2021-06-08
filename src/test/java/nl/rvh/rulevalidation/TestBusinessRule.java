@@ -1,10 +1,10 @@
 package nl.rvh.rulevalidation;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.jsontype.TypeResolverBuilder;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import nl.rvh.rulevalidation.applicators.LogApplicator;
 import nl.rvh.rulevalidation.enums.LogicalOperator;
+import nl.rvh.rulevalidation.rules.MaGoldenCross;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-import static nl.rvh.rulevalidation.enums.ComparisonOperator.GREATER_THAN;
+import static nl.rvh.rulevalidation.enums.ComparisonOperator.CONTAINS;
 
 class TestBusinessRule {
 
@@ -28,18 +28,12 @@ class TestBusinessRule {
     }
 
     @Test
-    void serializeAndDeserializeRuleSet() throws JsonProcessingException {
-        XmlMapper xmlMapper = new XmlMapper();
+    void serializeAndDeserializeRuleSet() {
+        XStream xstream = new XStream(new StaxDriver());
 
-//        TypeResolverBuilder<?> typeResolver = new CustomTypeResolverBuilder();
-//        typeResolver.init(JsonTypeInfo.Id.CLASS, null);
-//        typeResolver.inclusion(JsonTypeInfo.As.PROPERTY);
-//        typeResolver.typeProperty("@CLASS");
-//        xmlMapper.setDefaultTyping(typeResolver);
-//        xmlMapper.enableDefaultTyping();
-        String xml = xmlMapper.writeValueAsString(getBusinessRuleSet());
+        String xml = xstream.toXML(getBusinessRuleSet());
         log.debug(xml);
-        BusinessRuleSet businessRuleSet = xmlMapper.readValue(xml, BusinessRuleSet.class);
+        BusinessRuleSet businessRuleSet = (BusinessRuleSet) xstream.fromXML(xml);
         log.debug("{}", businessRuleSet);
 
         Assertions.assertTrue(businessRuleSet.evaluate(6));
@@ -49,8 +43,8 @@ class TestBusinessRule {
     private BusinessRuleSet getBusinessRuleSet() {
         BusinessRuleSet businessRules = new BusinessRuleSet("Check Golden Cross", LogicalOperator.AND);
 
-        BusinessRule businessRule1 = new MaGoldenCross(GREATER_THAN, 2);
-        BusinessRule businessRule2 = new MaGoldenCross(GREATER_THAN, 5);
+        BusinessRule businessRule1 = new MaGoldenCross(CONTAINS, "TEST");
+        BusinessRule businessRule2 = new MaGoldenCross(CONTAINS, 5);
 
         Map<String, Object> succesMap = new HashMap<>();
         succesMap.put("log", "the result is SUCCESS!");

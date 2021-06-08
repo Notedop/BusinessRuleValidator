@@ -1,9 +1,6 @@
 package nl.rvh.rulevalidation;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import nl.rvh.rulevalidation.enums.LogicalOperator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,18 +11,15 @@ import java.util.List;
 import static nl.rvh.rulevalidation.enums.LogicalOperator.AND;
 import static nl.rvh.rulevalidation.enums.LogicalOperator.OR;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
 public class BusinessRuleSet extends Rule {
 
-    @JacksonXmlProperty
     private LogicalOperator operator;
-    @JacksonXmlProperty(localName = "businessRules")
     private List<Rule> businessRules = new ArrayList<>();
 
+    @XStreamOmitField
     private Logger log = LoggerFactory.getLogger(BusinessRuleSet.class);
 
-    @JsonCreator
-    public BusinessRuleSet(@JsonProperty("name") String name, @JsonProperty("operator") LogicalOperator operator) {
+    public BusinessRuleSet(String name, LogicalOperator operator) {
         super(name);
         this.operator = operator;
     }

@@ -1,26 +1,16 @@
 package nl.rvh.rulevalidation;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 /**
  * Abstract rule class which is used by the BusinessRule and BusinessRuleSet class.
  * You should implement the BusinessRule class for custom rule definitions
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
 public abstract class Rule {
 
-    @JacksonXmlProperty
     protected String name;
-    @JacksonXmlProperty
     private ResultApplicator successResultApplicator;
-    @JacksonXmlProperty
     private ResultApplicator failResultApplicator;
 
-    @JsonCreator
-    protected Rule(@JsonProperty("name") String name) {
+    protected Rule(String name) {
         this.name = name;
     }
 
@@ -88,8 +78,9 @@ public abstract class Rule {
 
     /**
      * Implement a evaluation logic for the input object and return a boolean value.
+     *
      * @param objectToEvaluate object which requires evaluation
      * @return returns true if evaluated successfully or false if failed.
      */
-    abstract boolean evaluate(Object objectToEvaluate);
+    public abstract boolean evaluate(Object objectToEvaluate);
 }

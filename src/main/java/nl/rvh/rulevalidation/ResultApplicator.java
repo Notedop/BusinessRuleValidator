@@ -1,24 +1,17 @@
 package nl.rvh.rulevalidation;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 import java.util.Map;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
+
 public abstract class ResultApplicator {
 
-    @JacksonXmlProperty
     protected Map<String, Object> parameters;
 
-    @JsonCreator
-    protected ResultApplicator(@JsonProperty("parameter") Map<String, Object> parameters)  {
+    protected ResultApplicator(Map<String, Object> parameters) {
         this.parameters = parameters;
     }
 
-    abstract void applyResult();
+    public abstract void applyResult();
 
     public Map<String, Object> getParameters() {
         return parameters;
