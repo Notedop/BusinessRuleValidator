@@ -1,9 +1,6 @@
 package nl.rvh.rulevalidation;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import nl.rvh.rulevalidation.enums.LogicalOperator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +12,6 @@ public class BusinessRuleSet extends Rule {
 
     private LogicalOperator operator;
     private List<Rule> businessRules = new ArrayList<>();
-
-    @XStreamOmitField
-    private Logger log = LoggerFactory.getLogger(BusinessRuleSet.class);
 
     public BusinessRuleSet(String name, LogicalOperator operator) {
         super(name);

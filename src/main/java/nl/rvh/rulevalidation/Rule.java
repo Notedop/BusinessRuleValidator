@@ -1,10 +1,17 @@
 package nl.rvh.rulevalidation;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Abstract rule class which is used by the BusinessRule and BusinessRuleSet class.
  * You should implement the BusinessRule class for custom rule definitions
  */
 public abstract class Rule {
+
+    @XStreamOmitField
+    protected Logger log = LoggerFactory.getLogger(this.getClass());
 
     protected String name;
     private ResultApplicator successResultApplicator;
@@ -43,6 +50,16 @@ public abstract class Rule {
 
     public void setFailResultApplicator(ResultApplicator failResultApplicator) {
         this.failResultApplicator = failResultApplicator;
+    }
+
+    /**
+     * This method is used by deserialization process and is intented to instantiate any transient or fields annotated
+     * with the @XStreamOmitField. Override this method if your implementation requires additional transient fields.
+     * @return object with omitted fields instantiated
+     */
+    public Object readResolve(){
+        log = LoggerFactory.getLogger(this.getClass());
+        return this;
     }
 
     @Override

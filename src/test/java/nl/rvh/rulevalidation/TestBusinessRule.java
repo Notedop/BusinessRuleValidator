@@ -14,8 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static nl.rvh.rulevalidation.enums.ComparisonOperator.CONTAINS;
+import static nl.rvh.rulevalidation.enums.ComparisonOperator.GREATER_THAN;
 
 class TestBusinessRule {
+
 
     Logger log = LoggerFactory.getLogger(TestBusinessRule.class);
 
@@ -30,6 +32,7 @@ class TestBusinessRule {
     @Test
     void serializeAndDeserializeRuleSet() {
         XStream xstream = new XStream(new StaxDriver());
+        xstream.autodetectAnnotations(true);
 
         String xml = xstream.toXML(getBusinessRuleSet());
         log.debug(xml);
@@ -43,8 +46,8 @@ class TestBusinessRule {
     private BusinessRuleSet getBusinessRuleSet() {
         BusinessRuleSet businessRules = new BusinessRuleSet("Check Golden Cross", LogicalOperator.AND);
 
-        BusinessRule businessRule1 = new MaGoldenCross(CONTAINS, "TEST");
-        BusinessRule businessRule2 = new MaGoldenCross(CONTAINS, 5);
+        BusinessRule businessRule1 = new MaGoldenCross(GREATER_THAN, 5);
+        BusinessRule businessRule2 = new MaGoldenCross(GREATER_THAN, 5);
 
         Map<String, Object> succesMap = new HashMap<>();
         succesMap.put("log", "the result is SUCCESS!");

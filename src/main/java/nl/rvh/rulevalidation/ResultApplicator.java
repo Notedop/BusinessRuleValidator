@@ -1,10 +1,16 @@
 package nl.rvh.rulevalidation;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 
 
 public abstract class ResultApplicator {
 
+    @XStreamOmitField
+    protected Logger log = LoggerFactory.getLogger(this.getClass());
     protected Map<String, Object> parameters;
 
     protected ResultApplicator(Map<String, Object> parameters) {
@@ -19,6 +25,16 @@ public abstract class ResultApplicator {
 
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = parameters;
+    }
+
+    /**
+     * This method is used by deserialization process and is intented to instantiate any transient or fields annotated
+     * with the @XStreamOmitField. Override this method if your implementation requires additional transient fields.
+     * @return object with omitted fields instantiated
+     */
+    public Object readResolve() {
+        log = LoggerFactory.getLogger(this.getClass());
+        return this;
     }
 
     @Override

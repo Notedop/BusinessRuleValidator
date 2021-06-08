@@ -10,6 +10,8 @@ import nl.rvh.rulevalidation.enums.ComparisonOperator;
  * <p>
  * Implement the Evaluate method in the derived class. You can process the objectToEvaluate to your
  * liking and then use the comparisonOperator.compare() method to do the final evaluation
+ *
+ * Make sure to use the @XStreamOmitField to exclude any field from serializing
  */
 public abstract class BusinessRule extends Rule {
 

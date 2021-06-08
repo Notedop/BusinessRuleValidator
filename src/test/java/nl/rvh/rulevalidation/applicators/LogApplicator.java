@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class LogApplicator extends ResultApplicator {
 
-    Logger log = LoggerFactory.getLogger(LogApplicator.class);
 
-    public LogApplicator( Map<String, Object> parameters) {
+
+    public LogApplicator(Map<String, Object> parameters) {
         super(parameters);
     }
 
