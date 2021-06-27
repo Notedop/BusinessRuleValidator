@@ -1,23 +1,27 @@
 package nl.rvh.rulevalidation.enums;
 
+import java.math.BigDecimal;
+
 public enum ComparisonOperator {
 
     LESS_THAN("Less than") {
         @Override
         public boolean compare(Object actualValue, Object expectedValue) {
             if (actualValue instanceof Number) {
+                if (actualValue instanceof BigDecimal)
+                    return ((BigDecimal) actualValue).compareTo((BigDecimal) expectedValue) < 0;
                 if (actualValue instanceof Integer)
-                    return (Integer) actualValue < (Integer)  expectedValue;
+                    return (Integer) actualValue < (Integer) expectedValue;
                 else if (actualValue instanceof Double)
-                    return (Double) actualValue < (Double)  expectedValue;
+                    return (Double) actualValue < (Double) expectedValue;
                 else if (actualValue instanceof Float)
-                    return (Float) actualValue < (Float)  expectedValue;
+                    return (Float) actualValue < (Float) expectedValue;
                 else if (actualValue instanceof Byte)
-                    return (Byte) actualValue < (Byte)  expectedValue;
+                    return (Byte) actualValue < (Byte) expectedValue;
                 else if (actualValue instanceof Short)
-                    return (Short) actualValue < (Short)  expectedValue;
+                    return (Short) actualValue < (Short) expectedValue;
                 else if (actualValue instanceof Long)
-                    return (Long) actualValue < (Long)  expectedValue;
+                    return (Long) actualValue < (Long) expectedValue;
                 else
                     throw new UnsupportedOperationException("Unknown format to compare");
             }
@@ -28,18 +32,20 @@ public enum ComparisonOperator {
         @Override
         public boolean compare(Object actualValue, Object expectedValue) {
             if (actualValue instanceof Number) {
+                if (actualValue instanceof BigDecimal)
+                    return ((BigDecimal) actualValue).compareTo((BigDecimal) expectedValue) > 0;
                 if (actualValue instanceof Integer)
-                    return (Integer) actualValue > (Integer)  expectedValue;
+                    return (Integer) actualValue > (Integer) expectedValue;
                 else if (actualValue instanceof Double)
-                    return (Double) actualValue > (Double)  expectedValue;
+                    return (Double) actualValue > (Double) expectedValue;
                 else if (actualValue instanceof Float)
-                    return (Float) actualValue > (Float)  expectedValue;
+                    return (Float) actualValue > (Float) expectedValue;
                 else if (actualValue instanceof Byte)
-                    return (Byte) actualValue > (Byte)  expectedValue;
+                    return (Byte) actualValue > (Byte) expectedValue;
                 else if (actualValue instanceof Short)
-                    return (Short) actualValue > (Short)  expectedValue;
+                    return (Short) actualValue > (Short) expectedValue;
                 else if (actualValue instanceof Long)
-                    return (Long) actualValue > (Long)  expectedValue;
+                    return (Long) actualValue > (Long) expectedValue;
                 else
                     throw new UnsupportedOperationException("Unknown format to compare");
             }
@@ -50,18 +56,20 @@ public enum ComparisonOperator {
         @Override
         public boolean compare(Object actualValue, Object expectedValue) {
             if (actualValue instanceof Number) {
+                if (actualValue instanceof BigDecimal)
+                    return ((BigDecimal) actualValue).compareTo((BigDecimal) expectedValue) <= 0;
                 if (actualValue instanceof Integer)
-                    return (Integer) actualValue >= (Integer)  expectedValue;
+                    return (Integer) actualValue >= (Integer) expectedValue;
                 else if (actualValue instanceof Double)
-                    return (Double) actualValue >= (Double)  expectedValue;
+                    return (Double) actualValue >= (Double) expectedValue;
                 else if (actualValue instanceof Float)
-                    return (Float) actualValue >= (Float)  expectedValue;
+                    return (Float) actualValue >= (Float) expectedValue;
                 else if (actualValue instanceof Byte)
-                    return (Byte) actualValue >= (Byte)  expectedValue;
+                    return (Byte) actualValue >= (Byte) expectedValue;
                 else if (actualValue instanceof Short)
-                    return (Short) actualValue >= (Short)  expectedValue;
+                    return (Short) actualValue >= (Short) expectedValue;
                 else if (actualValue instanceof Long)
-                    return (Long) actualValue >= (Long)  expectedValue;
+                    return (Long) actualValue >= (Long) expectedValue;
                 else
                     throw new UnsupportedOperationException("Unknown format to compare");
             }
@@ -72,18 +80,20 @@ public enum ComparisonOperator {
         @Override
         public boolean compare(Object actualValue, Object expectedValue) {
             if (actualValue instanceof Number) {
+                if (actualValue instanceof BigDecimal)
+                    return ((BigDecimal) actualValue).compareTo((BigDecimal) expectedValue) >= 0;
                 if (actualValue instanceof Integer)
-                    return (Integer) actualValue >= (Integer)  expectedValue;
+                    return (Integer) actualValue >= (Integer) expectedValue;
                 else if (actualValue instanceof Double)
-                    return (Double) actualValue >= (Double)  expectedValue;
+                    return (Double) actualValue >= (Double) expectedValue;
                 else if (actualValue instanceof Float)
-                    return (Float) actualValue >= (Float)  expectedValue;
+                    return (Float) actualValue >= (Float) expectedValue;
                 else if (actualValue instanceof Byte)
-                    return (Byte) actualValue >= (Byte)  expectedValue;
+                    return (Byte) actualValue >= (Byte) expectedValue;
                 else if (actualValue instanceof Short)
-                    return (Short) actualValue >= (Short)  expectedValue;
+                    return (Short) actualValue >= (Short) expectedValue;
                 else if (actualValue instanceof Long)
-                    return (Long) actualValue >= (Long)  expectedValue;
+                    return (Long) actualValue >= (Long) expectedValue;
                 else
                     throw new UnsupportedOperationException("Unknown format to compare");
             }
