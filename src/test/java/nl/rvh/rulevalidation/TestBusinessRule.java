@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-import static nl.rvh.rulevalidation.enums.ComparisonOperator.CONTAINS;
 import static nl.rvh.rulevalidation.enums.ComparisonOperator.GREATER_THAN;
 
 class TestBusinessRule {
@@ -46,14 +45,17 @@ class TestBusinessRule {
     private BusinessRuleSet getBusinessRuleSet() {
         BusinessRuleSet businessRules = new BusinessRuleSet("Check Golden Cross", LogicalOperator.AND);
 
-        BusinessRule businessRule1 = new MaGoldenCross(GREATER_THAN, 5);
+        BusinessRule businessRule1 = new MaGoldenCross(GREATER_THAN, 7);
         BusinessRule businessRule2 = new MaGoldenCross(GREATER_THAN, 5);
 
         Map<String, Object> succesMap = new HashMap<>();
         succesMap.put("log", "the result is SUCCESS!");
 
+        Map<String, Object> failMap = new HashMap<>();
+        failMap.put("log", "the result is FAIL!");
+
         LogApplicator successLogApplicator = new LogApplicator(succesMap);
-        LogApplicator failLogApplicator = new LogApplicator(succesMap);
+        LogApplicator failLogApplicator = new LogApplicator(failMap);
 
         businessRule1.setSuccessResultApplicator(successLogApplicator);
         businessRule2.setSuccessResultApplicator(successLogApplicator);
