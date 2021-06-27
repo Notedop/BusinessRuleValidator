@@ -125,6 +125,26 @@ public enum ComparisonOperator {
                 throw new UnsupportedOperationException("ENDS_WITH comparison requires String Object");
             }
         }
+    },
+    EQUAL_TO("Equal to") {
+        @Override
+        public boolean compare(Object actualValue, Object expectedValue) {
+            if (actualValue instanceof BigDecimal)
+                return ((BigDecimal) actualValue).compareTo((BigDecimal) expectedValue) == 0;
+            if (actualValue instanceof Boolean && expectedValue instanceof Boolean)
+                return actualValue.equals(expectedValue);
+            else if (actualValue instanceof String && expectedValue instanceof String)
+                return actualValue.equals(expectedValue);
+            else if (actualValue instanceof Boolean && expectedValue instanceof String)
+                return actualValue.equals(((String) expectedValue).equalsIgnoreCase("true"));
+            else if (actualValue instanceof String && expectedValue instanceof Boolean)
+                return expectedValue.equals(((String) actualValue).equalsIgnoreCase("true"));
+            else if (actualValue instanceof Number)
+                return actualValue == expectedValue;
+
+            else
+                throw new UnsupportedOperationException("ENDS_WITH comparison requires String Object");
+        }
     };
 
     private final String description;
