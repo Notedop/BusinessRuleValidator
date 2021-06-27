@@ -139,21 +139,23 @@ public enum ComparisonOperator {
     EQUAL_TO("Equal to") {
         @Override
         public boolean compare(Object actualValue, Object expectedValue) {
-            if (actualValue instanceof BigDecimal)
+            if (actualValue instanceof BigDecimal) {
                 return ((BigDecimal) actualValue).compareTo((BigDecimal) expectedValue) == 0;
-            if (actualValue instanceof Boolean && expectedValue instanceof Boolean)
+            } else if (actualValue instanceof Boolean && expectedValue instanceof String) {
+                if (((String) expectedValue).equalsIgnoreCase("true") || ((String) expectedValue).equalsIgnoreCase("false")) {
+                    return actualValue.equals(((String) expectedValue).equalsIgnoreCase("true"));
+                } else {
+                    return false;
+                }
+            } else if (actualValue instanceof String && expectedValue instanceof Boolean)
+                if (((String) actualValue).equalsIgnoreCase("true") || ((String) actualValue).equalsIgnoreCase("false")) {
+                    return expectedValue.equals(((String) actualValue).equalsIgnoreCase("true"));
+                } else {
+                    return false;
+                }
+            else {
                 return actualValue.equals(expectedValue);
-            else if (actualValue instanceof String && expectedValue instanceof String)
-                return actualValue.equals(expectedValue);
-            else if (actualValue instanceof Boolean && expectedValue instanceof String)
-                return actualValue.equals(((String) expectedValue).equalsIgnoreCase("true"));
-            else if (actualValue instanceof String && expectedValue instanceof Boolean)
-                return expectedValue.equals(((String) actualValue).equalsIgnoreCase("true"));
-            else if (actualValue instanceof Number)
-                return actualValue == expectedValue;
-
-            else
-                throw new UnsupportedOperationException("ENDS_WITH comparison requires String Object");
+            }
         }
     };
 
