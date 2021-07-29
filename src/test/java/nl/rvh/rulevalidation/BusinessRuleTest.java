@@ -15,35 +15,53 @@ import java.util.Map;
 
 import static nl.rvh.rulevalidation.enums.ComparisonOperator.GREATER_THAN;
 
-class TestBusinessRule {
+class BusinessRuleTest {
 
-
-    Logger log = LoggerFactory.getLogger(TestBusinessRule.class);
+    RuleSerializer<BusinessRuleSet> serializer = new RuleSerializer<>();
+    Logger log = LoggerFactory.getLogger(BusinessRuleTest.class);
 
     @Test
-    void testRule() {
+    void testRuleOperatorAnd() {
 
-        BusinessRuleSet businessRules = getBusinessRuleSet();
+        BusinessRuleSet businessRules = getBusinessRuleSet(LogicalOperator.AND);
         Assertions.assertFalse(businessRules.evaluate(5));
+        Assertions.assertFalse(businessRules.evaluate(6));
+        Assertions.assertFalse(businessRules.evaluate(3));
+        Assertions.assertTrue(businessRules.evaluate(8));
 
     }
+
+    @Test
+    void testRuleOperatorOr() {
+
+        BusinessRuleSet businessRules = getBusinessRuleSet(LogicalOperator.OR);
+        Assertions.assertFalse(businessRules.evaluate(5));
+        Assertions.assertTrue(businessRules.evaluate(6));
+        Assertions.assertFalse(businessRules.evaluate(3));
+        Assertions.assertTrue(businessRules.evaluate(8));
+
+    }
+
 
     @Test
     void serializeAndDeserializeRuleSet() {
-        XStream xstream = new XStream(new StaxDriver());
-        xstream.autodetectAnnotations(true);
+//        XStream xstream = new XStream(new StaxDriver());
+//        xstream.autodetectAnnotations(true);
 
-        String xml = xstream.toXML(getBusinessRuleSet());
+        String xml = serializer.serialize(getBusinessRuleSet(LogicalOperator.AND));
         log.debug(xml);
-        BusinessRuleSet businessRuleSet = (BusinessRuleSet) xstream.fromXML(xml);
+        BusinessRuleSet businessRuleSet = serializer.deserialize(xml);
         log.debug("{}", businessRuleSet);
 
-        Assertions.assertTrue(businessRuleSet.evaluate(6));
+        Assertions.assertFalse(businessRuleSet.evaluate(5));
+        Assertions.assertFalse(businessRuleSet.evaluate(6));
+        Assertions.assertFalse(businessRuleSet.evaluate(3));
+        Assertions.assertTrue(businessRuleSet.evaluate(8));
 
     }
 
-    private BusinessRuleSet getBusinessRuleSet() {
-        BusinessRuleSet businessRules = new BusinessRuleSet("Check Golden Cross", LogicalOperator.AND);
+    private BusinessRuleSet getBusinessRuleSet(LogicalOperator operator) {
+        BusinessRuleSet businessRules = new BusinessRuleSet("Check Golden Cross", operator);
 
         BusinessRule businessRule1 = new MaGoldenCross(GREATER_THAN, 7);
         BusinessRule businessRule2 = new MaGoldenCross(GREATER_THAN, 5);
